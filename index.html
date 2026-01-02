@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mehtab Singh - AI Automation & LLM Solutions Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* Essential animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Scroll animations */
+        .section-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section-animate.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation effects */
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #4F46E5;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dark mode styles */
+        .dark .dark\:bg-indigo-900 {
+            background-color: #000000;
+        }
+        
+        .dark .dark\:text-white {
+            color: #fff;
+        }
+        
+        /* Card effects */
+        .project-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 8px;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+        
+        /* Mobile-optimized spacing */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 639px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .project-card {
+                margin-bottom: 1.5rem;
+            }
+
+            .linkedin-card {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+                margin-bottom: 1rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+                line-height: 1.3 !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            p {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .flex-wrap {
+                gap: 0.75rem !important;
+            }
+
+            .space-y-8 > * + * {
+                margin-top: 1.5rem !important;
+            }
+
+            .space-y-4 > * + * {
+                margin-top: 0.75rem !important;
+            }
+
+            .gap-4 {
+                gap: 0.75rem !important;
+            }
+
+            .gap-8 {
+                gap: 1rem !important;
+            }
+
+            .py-24 {
+                padding-top: 3rem !important;
+                padding-bottom: 3rem !important;
+            }
+
+            .px-8 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            .mb-16 {
+                margin-bottom: 2rem !important;
+            }
+
+            .mt-8 {
+                margin-top: 1.5rem !important;
+            }
+        }
+
+        /* Tablet and larger screens */
+        @media (min-width: 640px) {
+            .container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            section {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding-left: 2.5rem;
+                padding-right: 2.5rem;
+            }
+
+            section {
+                padding-left: 2.5rem;
+                padding-right: 2.5rem;
+            }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Section transitions */
+        section {
+            transition: all 0.5s ease-out;
+        }
+
+        /* Active section highlight */
+        .active-section {
+            background: rgba(79, 70, 229, 0.05);
+            transition: background 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-black dark:bg-black transition-colors duration-300">
+    <!-- Add canvas for Three.js background -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+    
+    <!-- Header/Navigation -->
+    <header class="fixed w-full z-50 bg-black dark:bg-black shadow-sm">
+        <div class="container mx-auto px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-white dark:text-white">
+                    <a href="#" class="flex items-center linkedin-nav">
+                     <span class="ml-2 bright-text">Mehtab Singh</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link group relative text-gray-700 dark:text-gray-200 hover:text-indigo-700 dark:hover:text-indigo-400 font-medium flex items-center px-4 py-2.5 transition-all duration-300 rounded-lg hover:bg-white/10 dark:hover:bg-gray-800/50 backdrop-blur-sm">
+                        <i class="fas fa-home mr-2.5 transform group-hover:scale-110 transition-transform duration-300 text-indigo-600 dark:text-indigo-400"></i>
+                        <span class="relative z-10">Home</span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 dark:from-indigo-400/10 dark:to-purple-400/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    
+                       
+                    </a>
+                    <a href="#about" class="nav-link group relative text-gray-700 dark:text-gray-200 hover:text-indigo-700 dark:hover:text-indigo-400 font-medium flex items-center px-4 py-2.5 transition-all duration-300 rounded-lg hover:bg-white/10 dark:hover:bg-gray-800/50 backdrop-blur-sm">
+                        <i class="fas fa-user mr-2.5 transform group-hover:scale-110 transition-transform duration-300 text-indigo-600 dark:text-indigo-400"></i>
+                        <span class="relative z-10">About</span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 dark:from-indigo-400/10 dark:to-purple-400/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </a>
+                    <a href="#Work" class="nav-link group relative text-gray-700 dark:text-gray-200 hover:text-indigo-700 dark:hover:text-indigo-400 font-medium flex items-center px-4 py-2.5 transition-all duration-300 rounded-lg hover:bg-white/10 dark:hover:bg-gray-800/50 backdrop-blur-sm">
+                        <i class="fas fa-briefcase mr-2.5 transform group-hover:scale-110 transition-transform duration-300 text-indigo-600 dark:text-indigo-400"></i>
+                        <span class="relative z-10">Work</span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 dark:from-indigo-400/10 dark:to-purple-400/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </a>
+                    <a href="#contact" class="nav-link group relative text-gray-700 dark:text-gray-200 hover:text-indigo-700 dark:hover:text-indigo-400 font-medium flex items-center px-4 py-2.5 transition-all duration-300 rounded-lg hover:bg-white/10 dark:hover:bg-gray-800/50 backdrop-blur-sm">
+                        <i class="fas fa-envelope mr-2.5 transform group-hover:scale-110 transition-transform duration-300 text-indigo-600 dark:text-indigo-400"></i>
+                        <span class="relative z-10">Contact</span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 dark:from-indigo-400/10 dark:to-purple-400/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </a>
+
+                    
+                    
+                    
+
+                        <!-- Toggle Switch -->
+                        <div class="relative inline-block w-14 h-7">
+                            <input 
+                                type="checkbox" 
+                                id="toggle" 
+                                class="peer hidden"
+                            />
+                            
+
+                        <!-- Sun Icon -->
+                        <span class="text-gray-700 dark:text-gray-200 transform hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-sun"></i>
+                        </span>
+                    </div>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <div class="flex items-center justify-between md:hidden">
+                    <button id="menu-btn" class="text-gray-600 dark:text-gray-300 focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-white dark:bg-indigo-900 transform translate-x-full md:hidden shadow-lg">
+            <div class="container mx-auto px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-300">Menu</div>
+                    <button id="close-btn" class="text-gray-600 dark:text-gray-300 focus:outline-none">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+                <nav class="mt-8 flex flex-col space-y-6">
+                    <a href="#home" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-300 font-medium text-lg flex items-center border-b border-gray-200 dark:border-gray-700 pb-2">
+                        <i class="fas fa-home mr-3"></i> Home
+                    </a>
+                    <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-300 font-medium text-lg flex items-center border-b border-gray-200 dark:border-gray-700 pb-2">
+                        <i class="fas fa-user mr-3"></i> About
+                    </a>
+                    <a href="#Work" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-300 font-medium text-lg flex items-center border-b border-gray-200 dark:border-gray-700 pb-2">
+                        <i class="fas fa-briefcase mr-3"></i> Work
+                    </a>
+                    <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-300 font-medium text-lg flex items-center border-b border-gray-200 dark:border-gray-700 pb-2">
+                        <i class="fas fa-envelope mr-3"></i> Contact
+                    </a>
+                    
+                    
+       
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-8 sm:px-12 lg:px-16 relative overflow-hidden">
+        <!-- Background gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-black to-black dark:from-black dark:via-black dark:to-black"></div>
+        
+        <div class="container mx-auto text-center relative z-10 fade-in">
+            <!-- Profile Image -->
+          
+
+
+
+            <!-- Main Content -->
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                    Hi, I'm <span class="text-gray-800 dark:text-white">Mehtab Singh</span>
+                </h1>
+                
+                <h2 class="text-2xl md:text-4xl font-semibold text-gray-600 dark:text-gray-300 mb-8">
+                    Professional Video Editor
+                </h2>
+                
+                <p class="text-lg md:text-xl text-gray-500 dark:text-gray-400 mb-12 leading-relaxed">
+                    I help creators and businesses transform raw footage into high-engagement, platform-optimized videos. 
+                    Every edit focuses on clean cuts, strong pacing, and storytelling that increases watch time and builds credibility.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#Work" class="group px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium linkedin-button transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+                        <span class="flex items-center">
+                            View My Work
+                            <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </span>
+                    </a>
+                    
+                    <a href="#contact" class="group px-8 py-3 border-2 border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400 font-medium linkedin-button hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-gray-900 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+                        <span class="flex items-center">
+                            Contact Me
+                            <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4v16m0-16l8 8-8 8"/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                 <!-- 
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a href="https://www.instagram.com/mehtab_singh02_/" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="mailto:nex.gen36655@gmail.com" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>-->
+
+        
+    </section>
+
+    <div class="w-full h-0.5 bg-gradient-to-r from-transparent via-indigo-600/20 to-transparent dark:via-indigo-400/20"></div>
+
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-black to-black dark:from-black dark:via-black dark:to-black"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(79,70,229,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(79,70,229,0.15),transparent_50%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(124,58,237,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_80%,rgba(124,58,237,0.15),transparent_50%)]"></div>
+        
+        <div class="container mx-auto px-8 relative">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto rounded-full"></div>
+                <p class="text-gray-600 dark:text-gray-300 mt-6 max-w-2xl mx-auto">
+                     Here you’ll find more information about who I am, what I do, and how I help clients through video editing
+        </p>
+                </p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12 fade-in">
+                <div class="lg:w-1/2 bg-black/50 dark:bg-black/50 backdrop-blur-sm p-8 shadow-xl border border-gray-800 dark:border-gray-800 linkedin-card">
+                    <h3 class="text-2xl font-semibold text-white dark:text-white mb-6">Get to know me!</h3>
+                    <div class="space-y-4 text-gray-300 dark:text-gray-300">
+                       <p>
+    I’m a professional video editor working primarily in DaVinci Resolve, delivering high-quality edits with a strong focus on storytelling, pacing, and visual polish.
+    I combine clean editing, cinematic color work, motion graphics in Fusion, and precise sound design to create videos that feel premium and engaging.
+</p>
+
+<ul>
+    <li><strong>DaVinci Resolve Editing:</strong> Clean cuts, pacing, b-roll integration, and cinematic color grading</li>
+    <li><strong>Fusion Motion Graphics:</strong> Titles, lower thirds, subtle animations, and visual enhancements</li>
+    <li><strong>Sound Design & Audio Cleanup:</strong> Dialogue clarity, sound effects, music balancing, and loudness control</li>
+    <li><strong>Platform Optimization:</strong> YouTube, Reels, Shorts, and social-first formats</li>
+    <li><strong>Professional Finishing:</strong> Color consistency, smooth transitions, and final polish</li>
+</ul>
+</ul>
+
+
+                          
+
+                        <div class="pt-4">
+                            <a href="#contact" class="px-6 py-3 inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                Contact Me
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 w-full bg-black/50 dark:bg-black/50 backdrop-blur-sm p-8 shadow-xl border border-gray-800 dark:border-gray-800 linkedin-card">
+                    <h3 class="text-2xl font-semibold text-white dark:text-white mb-6">My Skills</h3>
+                    <div class="flex flex-wrap gap-4 justify-center max-w-4xl mx-auto">
+                       <span class="flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-teal-400 rounded-full text-white shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18"/></svg>
+                            Davinci Resolve
+                    </span>
+
+                        
+                        <span class="flex items-center px-4 py-2 bg-green-100 dark:bg-green-700 rounded-full text-green-800 dark:text-green-200 shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18"/></svg>
+                            Fusion
+                    </span>
+
+                        <span class="flex items-center px-4 py-2 bg-yellow-100 dark:bg-yellow-700 rounded-full text-yellow-800 dark:text-yellow-200 shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            Sound Design
+                        </span>
+
+                        <span class="flex items-center px-4 py-2 bg-pink-100 dark:bg-pink-700 rounded-full text-pink-800 dark:text-pink-200 shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            Motion Graphic
+                        </span>
+
+                        <span class="flex items-center px-4 py-2 bg-purple-100 dark:bg-purple-700 rounded-full text-purple-800 dark:text-purple-200 shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/></svg>
+                            Platform-Optimized Content
+                        </span>
+
+                        <span class="flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-700 rounded-full text-blue-800 dark:text-blue-200 shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20l9-5-9-5-9 5 9 5z"/></svg>
+                            Storytelling & Pacing
+                        </span>
+
+                        <span class="flex items-center px-4 py-2 bg-teal-100 dark:bg-teal-700 rounded-full text-teal-800 dark:text-teal-200 shadow-md hover:scale-105 transition-transform cursor-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 4H5m14-8H5"/></svg>
+                            Cinematic Color Grading
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="Work" class="py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-black via-black to-black"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(79,70,229,0.15),transparent_50%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,rgba(124,58,237,0.15),transparent_50%)]"></div>
+    
+    <div class="container mx-auto px-8 relative">
+        <div class="text-center mb-16 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">My Work</h2>
+            <div class="w-20 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto rounded-full"></div>
+            <p class="text-gray-300 mt-6 max-w-2xl mx-auto">
+                Here you will find a selection of my video editing projects, showcasing my skills in DaVinci Resolve, Fusion, sound design, and motion graphics.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+
+            <!-- Showeel -->
+            <a href="https://youtu.be/TIynz8Ql4DY" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="project-card group block bg-black/80 backdrop-blur-sm overflow-hidden rounded-lg shadow-xl border border-gray-800 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-indigo-500 fade-in">
+
+                <div class="w-full h-48">
+                    <img class="w-full h-full object-cover"
+     src="https://img.youtube.com/vi/TIynz8Ql4DY/hqdefault.jpg"
+     alt="Video Title 1">
+
+                </div>
+
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-white mb-2">Showreel</h3>
+                    <p class="text-gray-300 mb-4">
+                        
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">DaVinci Resolve</span>
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Fast-Cut</span>
+                    </div>
+                    
+                    <div class="inline-flex items-center text-indigo-400 font-medium transition-colors duration-300 group-hover:text-indigo-300">
+                        Watch on YouTube
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!--b vs a -->
+            <a href="https://youtube.com/shorts/euuOeICEAYs?feature=share" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="project-card group block bg-black/80 backdrop-blur-sm overflow-hidden rounded-lg shadow-xl border border-gray-800 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-indigo-500 fade-in">
+
+                <div class="w-full h-48">
+                    <img class="w-full h-full object-cover"
+     src="https://img.youtube.com/vi/euuOeICEAYs/hqdefault.jpg"
+     alt="Video Title 1">
+
+                </div>
+
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-white mb-2">Before Vs After</h3>
+                    <p class="text-gray-300 mb-4">
+                        
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Text</span>
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Motion Graphic</span>
+                    </div>
+                    
+                    <div class="inline-flex items-center text-indigo-400 font-medium transition-colors duration-300 group-hover:text-indigo-300">
+                        Watch on YouTube
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!--Motion Graphic -->
+            <a href="https://youtube.com/shorts/OFsVfgf8qZ0?feature=share" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="project-card group block bg-black/80 backdrop-blur-sm overflow-hidden rounded-lg shadow-xl border border-gray-800 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-indigo-500 fade-in">
+
+                <div class="w-full h-48">
+                    <img class="w-full h-full object-cover"
+     src="https://img.youtube.com/vi/OFsVfgf8qZ0/hqdefault.jpg"
+     alt="Video Title 1">
+
+                </div>
+
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-white mb-2">Motion Graphic</h3>
+                    <p class="text-gray-300 mb-4">
+                        
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Motion</span>
+                        <p class="text-gray-300 mb-4">
+                        Sorry, Yt Reduce the quality too much.
+                    </div>
+                    
+                    <div class="inline-flex items-center text-indigo-400 font-medium transition-colors duration-300 group-hover:text-indigo-300">
+                        Watch on YouTube
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video Card 1 -->
+            <a href="https://www.youtube.com/shorts/y_yL4DhApg8" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="project-card group block bg-black/80 backdrop-blur-sm overflow-hidden rounded-lg shadow-xl border border-gray-800 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-indigo-500 fade-in">
+
+                <div class="w-full h-48">
+                    <img class="w-full h-full object-cover"
+     src="https://img.youtube.com/vi/y_yL4DhApg8/hqdefault.jpg"
+     alt="Video Title 1">
+
+                </div>
+
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-white mb-2">Dhrav Ruthee Style</h3>
+                    <p class="text-gray-300 mb-4">
+                        In this video, I remake Dhrav Ruthee latest video clip to show my skills
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">DaVinci Resolve</span>
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Fast-Cut</span>
+                    </div>
+                    
+                    <div class="inline-flex items-center text-indigo-400 font-medium transition-colors duration-300 group-hover:text-indigo-300">
+                        Watch on YouTube
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video Card 2 -->
+            <a href="https://www.youtube.com/shorts/5lE1mFL2eNs" 
+   target="_blank" 
+   rel="noopener noreferrer"
+   class="project-card group block bg-black/80 backdrop-blur-sm overflow-hidden rounded-lg shadow-xl border border-gray-800 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:ring-indigo-500 fade-in">
+
+    <!-- YouTube Thumbnail -->
+    <div class="w-full h-48">
+        <img class="w-full h-full object-cover"
+             src="https://img.youtube.com/vi/5lE1mFL2eNs/hqdefault.jpg"
+             alt="Video Title 2 Thumbnail">
+    </div>
+
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-white mb-2">Fast-Paced</h3>
+                    <p class="text-gray-300 mb-4">
+                        Showcasing Latest trend type of video to demonstrating my skills
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">DaVinci Resolve</span>
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Fusion</span>
+                        <span class="px-3 py-1 bg-indigo-900/50 text-indigo-200 rounded-full text-sm font-medium">Sound Design</span>
+                    </div>
+                    
+                    <div class="inline-flex items-center text-indigo-400 font-medium transition-colors duration-300 group-hover:text-indigo-300">
+                        Watch on YouTube
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            
+</section>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-black to-black dark:from-black dark:via-black dark:to-black"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(79,70,229,0.1),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(79,70,229,0.15),transparent_70%)]"></div>
+        
+        <div class="container mx-auto px-8 relative">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Contact Me</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto rounded-full"></div>
+                <p class="text-gray-600 dark:text-gray-300 mt-6 max-w-2xl mx-auto">
+                    Feel free to reach out if you're looking for Video Editor, have a question, or just want to connect
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8 items-center justify-center">
+                <!-- Contact Information Column -->
+                <section class="w-full md:w-1/2 p-8 bg-black/80 dark:bg-black/80 backdrop-blur-sm shadow-xl border border-gray-800 dark:border-gray-800 fade-in linkedin-card" style="animation-delay: 0.2s">
+                    <h2 id="contact-info-heading" class="text-3xl font-extrabold text-white dark:text-white mb-8 border-b-2 border-gray-800 pb-2">
+                        Contact Information
+                    </h2>
+
+                    <dl class="space-y-8 text-gray-300 dark:text-gray-300">
+                        <!-- Location -->
+                        <div class="flex items-center space-x-4 group">
+                            <div class="flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-3 transform group-hover:scale-110 transition-transform duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c-4-2.5-8-7-8-11a8 8 0 1116 0c0 4-4 8.5-8 11z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <dt class="text-lg font-semibold text-gray-900 dark:text-white">Location</dt>
+                                <dd>Gurdaspur, Punjab, India</dd>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="flex items-center space-x-4 group">
+                            <div class="flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-3 transform group-hover:scale-110 transition-transform duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m0 0L12 16m-4-4l4-4" />
+                                </svg>
+                            </div>
+                            <div>
+                                <dt class="text-lg font-semibold text-gray-900 dark:text-white">Email</dt>
+                                <dd><a href="mailto:nex.gen36655@gmail.com" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300">nex.gen36655@gmail.com</a></dd>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="flex items-center space-x-4 group">
+                            <div class="flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-3 transform group-hover:scale-110 transition-transform duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l3.6 7.59-1.35 2.44a11.044 11.044 0 005.19 5.19l2.44-1.35L19 19v2a2 2 0 01-2 2h-1c-5.523 0-10-4.477-10-10v-1a2 2 0 012-2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <dt class="text-lg font-semibold text-gray-900 dark:text-white">Phone</dt>
+                                <dd><a href="tel:855-688-0297" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300">855-688-0297</a></dd>
+                            </div>
+                        </div>
+
+                        <!-- Working Hours -->
+                        <div class="flex items-center space-x-4 group">
+                            <div class="flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-3 transform group-hover:scale-110 transition-transform duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <dt class="text-lg font-semibold text-gray-900 dark:text-white">Working Hours</dt>
+                                <dd>
+                                    <time datetime="Mo-Fr 09:00-17:00">50-60 hour per week</time>
+                                </dd>
+                            </div>
+                        </div>
+                    </dl>
+                </section>
+
+                <!-- Image Column -->
+
+                
+                </section>
+
+    
+
+    <!-- Footer -->
+    <footer class="bg-black dark:bg-black py-16">
+        <div class="container mx-auto px-8 max-w-5xl">
+            <div class="flex flex-col items-center text-center space-y-6">
+                <!-- Logo / Brand -->
+                <a href="#" class="text-4xl font-extrabold tracking-wide text-white drop-shadow-lg hover:drop-shadow-xl transition duration-500">
+                    Portfolio
+                </a>
+
+                <!-- Tagline -->
+                <p class="max-w-3xl text-white/90 text-lg font-light leading-relaxed">
+                    A modern, responsive portfolio template created by Mehtab singh. Built with Only HTML, CSS, JAVASCRIPT
+                </p>
+
+                <!-- Social Links -->
+                
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-white/70 text-sm select-none">
+                
+            </p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 h-12 w-12 bg-indigo-600 text-white rounded-full shadow-lg flex items-center justify-center hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenu.classList.add('translate-x-0');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('translate-x-full');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+            }
+        });
+        
+        // Dark mode toggle
+        const toggle = document.getElementById('toggle');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const html = document.documentElement;
+        
+        // Check for saved user preference or use system preference
+        if (true) { // Always start in dark mode
+            html.classList.add('dark');
+            toggle.checked = true;
+            mobileToggle.checked = true;
+        }
+        
+        // Toggle dark mode
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('dark-mode', isDark);
+            toggle.checked = isDark;
+            mobileToggle.checked = isDark;
+        } 
+        
+        
+        
+        toggle.addEventListener('change', toggleDarkMode);
+        mobileToggle.addEventListener('change', toggleDarkMode);
+        
+        // Add section-animate class to all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('section-animate');
+        });
+
+        // Smooth scroll function with animation
+        function smoothScroll(targetId) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerOffset = 100;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                // Add animation class to target section
+                targetElement.classList.add('animate');
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open
+                if (mobileMenu.classList.contains('translate-x-0')) {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('translate-x-full');
+                }
+            }
+        }
+
+        // Add click event listeners to all navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                smoothScroll(targetId);
+            });
+        });
+
+        // Enhanced scroll animation
+        function checkScroll() {
+            const sections = document.querySelectorAll('section');
+            const windowHeight = window.innerHeight;
+            const triggerBottom = windowHeight * 0.8;
+
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                
+                if (sectionTop < triggerBottom) {
+                    section.classList.add('animate');
+                    section.classList.add('active-section');
+                } else {
+                    section.classList.remove('active-section');
+                }
+            });
+        }
+
+        // Initial check
+        checkScroll();
+        
+        // Check on scroll with throttling
+        let isScrolling;
+        window.addEventListener('scroll', () => {
+            window.clearTimeout(isScrolling);
+            isScrolling = setTimeout(() => {
+                checkScroll();
+                setActiveNavItem();
+            }, 50);
+        });
+
+        // Handle active navigation state
+        function setActiveNavItem() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('#mobile-menu a');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    // Update desktop navigation
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-indigo-600', 'dark:text-indigo-300');
+                        link.classList.add('text-gray-600', 'dark:text-gray-300');
+                    });
+                    const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+                    if (activeLink) {
+                        activeLink.classList.remove('text-gray-600', 'dark:text-gray-300');
+                        activeLink.classList.add('text-indigo-600', 'dark:text-indigo-300');
+                    }
+
+                    // Update mobile navigation
+                    mobileNavLinks.forEach(link => {
+                        link.classList.remove('text-indigo-600', 'dark:text-indigo-300');
+                        link.classList.add('text-gray-600', 'dark:text-gray-300');
+                    });
+                    const activeMobileLink = document.querySelector(`#mobile-menu a[href="#${sectionId}"]`);
+                    if (activeMobileLink) {
+                        activeMobileLink.classList.remove('text-gray-600', 'dark:text-gray-300');
+                        activeMobileLink.classList.add('text-indigo-600', 'dark:text-indigo-300');
+                    }
+                }
+            });
+        }
+
+        // Set active state on scroll
+        window.addEventListener('scroll', setActiveNavItem);
+        // Set initial active state
+        setActiveNavItem();
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('hidden');
+            } else {
+                backToTopBtn.classList.add('hidden');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+   
+    
+    </script>
+</body>
+</html>

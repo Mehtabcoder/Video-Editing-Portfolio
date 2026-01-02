@@ -1,0 +1,6 @@
+Sum of Even Numbers: Write a Python program to find the sum of all even numbers from 1 to 100.
+Fibonacci Sequence: Generate the first N Fibonacci numbers, where N is input by the user.
+Prime Number Checker: Write a function to check whether a number is prime or not.
+Palindrome Checker: Write a program that takes a string and checks whether it is a palindrome (reads the same forward and backward).
+List Reversal: Given a list of numbers, reverse the list without using the built-in reverse function.
+Factorial of a Number: Write a function to calculate the factorial of a number using recursion.
